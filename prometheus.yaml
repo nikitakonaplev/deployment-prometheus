@@ -1,32 +1,39 @@
+--- 
 apiVersion: extensions/v1beta1
 kind: Deployment
-metadata:
+metadata: 
   name: prometheus-deployment
   namespace: monitoring
-spec:
+spec: 
   replicas: 1
-  template:
-    metadata:
-      labels:
+  template: 
+    metadata: 
+      labels: 
         app: prometheus-server
-    spec:
-      containers:
-        - name: prometheus
-          image: prom/prometheus:v2.1.0
-          args:
+    spec: 
+      containers: 
+        - 
+          args: 
             - "--config.file=/etc/prometheus/prometheus.yml"
             - "--storage.tsdb.path=/prometheus/"
-          ports:
-            - containerPort: 9090
-          volumeMounts:
-            - name: prometheus-config-volume
+          image: "prom/prometheus:v2.1.0"
+          name: prometheus
+          ports: 
+            - 
+              containerPort: 9090
+          volumeMounts: 
+            - 
               mountPath: /etc/prometheus/
-            - name: prometheus-storage-volume
+              name: prometheus-config-volume
+            - 
               mountPath: /prometheus/
-      volumes:
-        - name: prometheus-config-volume
-          configMap:
+              name: prometheus-storage-volume
+      volumes: 
+        - 
+          configMap: 
             defaultMode: 420
             name: prometheus-server-conf
-        - name: prometheus-storage-volume
+          name: prometheus-config-volume
+        - 
           emptyDir: {}
+          name: prometheus-storage-volume
